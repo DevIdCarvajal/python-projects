@@ -176,7 +176,7 @@ O preseleccionarlas en la importación:
 
 ## 5. Módulos estándar de Python
 
-El lenguaje aprovisiona una extensa colección de módulos de serie con diversas funcionalidades del mismo tipo para cada múdulo:
+El lenguaje aprovisiona una extensa colección de módulos de serie con diversas funcionalidades del mismo tipo para cada módulo:
 
     import platform
 
