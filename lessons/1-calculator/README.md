@@ -27,7 +27,7 @@
 
 - Calculadora común: Suma, resta, multiplicación, división y resto
 - Calculadora de cambio de divisa: € <-> $, $ <-> BTC, BTC <-> €
-- Calculadora/generación de facturas: IVA (0/4/10/21) e IRPF (0/15)
+- Calculadora/generación de facturas: IVA (0/4%/10%/21%) e IRPF (0/-15%)
 
 ## 2. Estructura de un programa Python
 
@@ -63,22 +63,17 @@
 
 Se puede comentar código de una sola línea:
 
-    ```
     # Esto es un comentario simple
-    ```
 
 O de varias líneas:
 
-    ```
     """
     Esto es un comentario
     un poco más complejo
     """
-    ```
 
 De este modo se puede documentar el código mediante Docstrings:
 
-    ```
     def square(a):
         '''Returned argument a is squared.'''
         return a**a
@@ -86,7 +81,6 @@ De este modo se puede documentar el código mediante Docstrings:
     print(square.__doc__)
 
     help(square)
-    ```
 
 ## 4. Entrada y salida de información en consola (input y print)
 

@@ -15,15 +15,15 @@
 - Operaciones a implementar
 - Estructura de un programa Python
 - Comentarios y documentación de programas
-- Entrada y salida de información en consola (Input y Print)
+- Entrada y salida de información en consola (input y print)
 - Variables y tipos de datos en Python: Números, textos, listas, tuplas y diccionarios
 - Asignaciones
 - Operadores: Aritméticos, lógicos, relacionales, a nivel de bit
 - Condicionales. Indentación y PEP8
-- Bucles For y While
-- Sentencias de control: Continue, break y pass
+- Bucles for y while
+- Sentencias de control: continue, break y pass
 - Funciones. Argumentos
-- Uso de la librería estándar Math
+- Uso de la librería estándar math
 
 ## Proyecto 2: Gestión de librería
 
@@ -60,12 +60,12 @@
 ## Proyecto 5: Simulando Big Data
 
 - Trabajar con grandes cantidades de datos
-- Medición de rendimiento: Librería Timer
+- Medición de rendimiento: Librería timer
 - Control de calidad: Pruebas unitarias
 - Librería doctest
 - Trabajo con datos estructurados binarios
 - Multihilos
-- Sistema de Logs
+- Sistema de logs
 - Garbage Collections. Sistema de control de memoria
 
 ## Proyecto 6: Scientific Research Inc.
