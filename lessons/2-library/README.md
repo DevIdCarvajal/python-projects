@@ -34,40 +34,34 @@ Siguiendo las técnicas del paradigma de la programación funcional, los casos h
 
 - Almacenarlas en una variable en caso de querer ser reutilizadas:
 
-    ```
-    levelUp = lambda level : level + 1
-    print(levelUp(8))
+        levelUp = lambda level : level + 1
+        print(levelUp(8))
 
-    concatenateWithColon = lambda string1, string2 : f"{string1}:{string2}"
-    print(concatenateWithColon(4,7))
-    ```
+        concatenateWithColon = lambda string1, string2 : f"{string1}:{string2}"
+        print(concatenateWithColon(4,7))
 
 - Pasarlas como parámetros a otras funciones como "callbacks":
 
-    ```
-    def calculateWithLambda(valor1, valor2, operatorFunction):
-        return operatorFunction(valor1, valor2)
+        def calculateWithLambda(valor1, valor2, operatorFunction):
+            return operatorFunction(valor1, valor2)
 
-    print(calculateWithLambda(10, 3, lambda x1, x2 : x1 + x2))
-    ```
+        print(calculateWithLambda(10, 3, lambda x1, x2 : x1 + x2))
 
 - Devolverlas como valor de retorno de otras funciones ("currificación"):
 
-    ```
-    def multiplier(n):
-        return lambda number : number * n
+        def multiplier(n):
+            return lambda number : number * n
 
-    duplicater = multiplier(2)
-    triplicater = multiplier(3)
+        duplicater = multiplier(2)
+        triplicater = multiplier(3)
 
-    print(duplicater(111))
-    print(triplicater(111))
+        print(duplicater(111))
+        print(triplicater(111))
 
-    # Currying version
+        # Currying version
 
-    print(multiplier(4)(111))
-    print(multiplier(5)(111))
-    ```
+        print(multiplier(4)(111))
+        print(multiplier(5)(111))
 
 ## 3. Operaciones sobre listas, tuplas, diccionarios y conjuntos
 
@@ -77,45 +71,37 @@ Es posible iterar listas aplicando funciones en cada iteración mediante las fun
 
 En primer lugar está map, que sirve para aplicar una función a todos los elementos de una lista y devolver un nuevo objeto iterable con los elementos resultantes:
 
-```
-def startsWithA(string):
-    return string[0] == "A"
+    def startsWithA(string):
+        return string[0] == "A"
 
-fruits = ["Apple", "Banana", "Pear", "Apricot", "Orange"]
-mapObject = map(startsWithA, fruits)
+    fruits = ["Apple", "Banana", "Pear", "Apricot", "Orange"]
+    mapObject = map(startsWithA, fruits)
 
-print(list(mapObject))
-```
+    print(list(mapObject))
 
 Después está filter, que sirve para, dada una función que devuelve una expresión de comparación lógica y una lista, aplica la condición determinada por la función a todos los elementos de la lista, y devuelve un nuevo objeto iterable con los elementos filtrados por dicha condición:
 
-```
-def endsWithE(string):
-    return string[-1] == "e"
+    def endsWithE(string):
+        return string[-1] == "e"
 
-fruits = ["Apple", "Banana", "Pear", "Apricot", "Orange"]
-filterObject = filter(endsWithE, fruits)
+    fruits = ["Apple", "Banana", "Pear", "Apricot", "Orange"]
+    filterObject = filter(endsWithE, fruits)
 
-print(list(filterObject))
-```
+    print(list(filterObject))
 
 Por último tenemos reduce, que dada una función acumuladora y una lista, aplica el resultado de ir recorriendo los elementos de la lista, acumulando el resultado generado por la función, y devuelve el valor resultante de la acumulación:
 
-```
-from functools import reduce
+    from functools import reduce
 
-def sigma(x, y):
-    return x + y
+    def sigma(x, y):
+        return x + y
 
-list = [2, 4, 7, 3]
-print(reduce(sigma, list))
-```
+    list = [2, 4, 7, 3]
+    print(reduce(sigma, list))
 
 En el caso de reduce, opcionalmente es posible también establecer un valor inicial antes de empezar la acumulación, que también se procesará con el primer elemento de la lista:
 
-```
-print(reduce(sigma, list, 10))
-```
+    print(reduce(sigma, list, 10))
 
 ### Tuplas
 
@@ -206,11 +192,60 @@ Y después se usa como un módulo más:
 
 ## 7. Formateo de la información de salida
 
-[...]
+Cuando se imprimen strings, estos pueden estar formados por elementos que no son de tipo string, por lo que requieren ser convertidos.
+
+Esta operación puede resultar algo tediosa, por lo que existen varias formas de realizarla:
+
+### Operador módulo
+
+Similar al formateo de salida de lenguajes como C:
+
+    print("Pythoners: %2d, Maggles: %5.2f" % (1, 05.333))
+    print("Total estudiantes: %3d, Aprobados: %2d" % (240, 120))
+
+### Método format()
+
+Similar al anterior pero en versión más declarativa:
+
+    print("Pythoners: {0:2d}, Maggles: {1:5.2f}".format(1, 05.333))
+    print("Total estudiantes: {0:3d}, Aprobados: {1:2d}".format(240, 120))
+
+### Notación f-string
+
+No requiere especificar el tipo del dato y es más intuitiva:
+
+    print(f"Pythoners: {1}, Maggles: {05.333}")
+    print(f"Total estudiantes: {240}, Aprobados: {120}")
 
 ## 8. Lectura y escritura en disco
 
-[...]
+Las operaciones de lectura y escritura en disco se realizan en ficheros, que son estructuras de datos secuenciales de almacenamiento persistente.
+
+Para empezar a trabajar con un fichero, es necesario abrirlo especificando el modo de acceso:
+
+- Creación de un fichero vacío (create): "x"
+- Lectura de un fichero existente (read): "r"
+- Escritura desde el principio (write): "w"
+- Escritura desde el final (append): "a"
+
+Y el tipo de fichero:
+
+- Texto: "t" (valor por defecto)
+- Binario: "b"
+
+Mediante el método open(), indicando la ruta (relativa o absoluta):
+
+    myFile = open("dummy.txt", "r")
+
+Es posible hacer lectura completa, de una cantidad de bytes (caracteres si es de texto) o líneas:
+
+    allFile = myFile.read()
+    beginning = myFile.read(8)
+    firstLine = myFile.readline()
+
+Finalmente y tras realizar las operaciones deseadas, el fichero debe cerrarse:
+
+    myFile.close()
 
 ## Referencias
 
