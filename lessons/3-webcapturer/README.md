@@ -13,62 +13,63 @@
 
 - Captura (scraping) de datos resultado de una búsqueda en un website (a elegir)
 - Extracción y manipulación de datos "brutos" para obtener un dataset "limpio"
+- Almacenamiento del dataset en un nuevo fichero de texto en formato CSV
 
 ## 2. Gestión de excepciones
 
 Una excepción es un error en tiempo de ejecución, que normalmente no es previsible en tiempo de codificación, de ahí que haya que "manejar" la excepción en caso de que ocurra:
 
-  try:
-    print(x)
-  except:
-    print("Ocurrió una excepción genérica")
+    try:
+      print(x)
+    except:
+      print("Ocurrió una excepción genérica")
 
 Se pueden manejar los distintos tipos de excepciones predefinidas de forma separada:
 
-  try:
-    print(x)
-  except NameError:
-    print("No existe esa variable")
-  except:
-    print("Ocurrió una excepción genérica")
+    try:
+      print(x)
+    except NameError:
+      print("No existe esa variable")
+    except:
+      print("Ocurrió una excepción genérica")
 
 Realizar alguna operación en caso de que no haya excepciones que manejar:
 
-  try:
-    print(x)
-  except:
-    print("Ocurrió una excepción genérica")
-  else:
-    print("Todo va bien")
+    try:
+      print(x)
+    except:
+      print("Ocurrió una excepción genérica")
+    else:
+      print("Todo va bien")
 
 O realizar alguna operación en cualquiera de los casos (con o sin excepciones):
 
-  try:
-    print(x)
-  except:
-    print("Ocurrió una excepción genérica")
-  finally:
-    print("Todo terminó")
+    try:
+      print(x)
+    except:
+      print("Ocurrió una excepción genérica")
+    finally:
+      print("Todo terminó")
 
 Al igual que en los condicionales y bucles, la anidación está permitida para distintas operaciones dependientes entre sí:
 
-  try:
-    f = open("dummy.txt")
     try:
-      f.write("En un lugar de La Mancha")
+      f = open("dummy.txt")
+      try:
+        f.write("En un lugar de La Mancha")
+      except:
+        print("El fichero no se pudo escribir")
+      finally:
+        f.close()
     except:
-      print("El fichero no se pudo escribir")
-    finally:
-      f.close()
-  except:
-    print("El fichero no se pudo abrir")
+      print("El fichero no se pudo abrir")
 
 Por último, en tiempo de codificación se puede establecer el lanzamiento de excepciones voluntariamente:
 
-  x = "hello"
+    x = "hello"
 
-  if not type(x) is int:
-    raise TypeError("No es un número entero")
+    if not type(x) is int:
+      raise TypeError("No es un número entero")
 
 ## 3. Acciones de limpieza
 
@@ -78,7 +79,7 @@ Uno de ellos es lo que en programación se conoce como acciones de limpieza, que
 
 Un buen ejemplo de estas operaciones podría ser la apertura de ficheros, de bases de datos o de cualquier recurso compartido en general. En estos casos, los accesos abiertos deben ser cerrados.
 
-Para ello, el lugar adecuado para hacerlo es en la cláusula finally del try-catch:
+Para ello, el lugar adecuado para hacerlo es en la cláusula finally del try-except:
 
     def div(a,b):
       try:
