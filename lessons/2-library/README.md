@@ -26,6 +26,11 @@
   - Obtener datos de Libro por ISBN
   - Obtener datos de Libros por idAutor
 
+Se pide implementar los requisitos anteriores en dos versiones distintas:
+
+1. Guardando y accediendo a la información en memoria (con variables)
+2. Guardando y accediendo a la información en disco (con ficheros)
+
 ## 2. Funciones lambda
 
 Son funciones anónimas definidas "en una línea", es decir, de una sola expresión que normalmente se emplean en casos en los que se necesita un cálculo puntual por un breve periodo de tiempo.
