@@ -15,7 +15,11 @@
 ## 1. Básicos en antispam
 
 - Definir un listado de términos de búsqueda que estén catalogados como spam (e.g., "cialis", "viagra")
-- A partir de un fichero de texto que contiene algunos de los términos de búsqueda, un programa que devuelva cuántos hay, cuáles son y cuántas veces se repiten en el texto.
+- A partir de un fichero de texto que contiene algunos de los términos de búsqueda, codificar una clase que pueda devolver:
+  - Cuántos términos de spam hay en total
+  - Cuáles son los que se han encontrado y cuántas veces se repiten, por cada uno de ellos
+  - Dado un término concreto, cuántas veces se repite ese en particular
+  - Dado un término concreto y un string alternativo, sustituir en el fichero todas las apariciones del término por las del alternativo
 - Repetir el mismo ejercicio con patrones más complejos (e.g., emails o urls que acaben en ".thisisspam.com" o "@spammail.com")
 
 ## 2. Clases. Programación orientada a objetos en Python
@@ -219,14 +223,14 @@ Es posible crear iteradores propios mediante clases que implementen los métodos
         return self
       
       def __next__(self):
-        if self.counter < 21: # Límite máximo
+        if self.counter < 11: # Límite máximo
           x = self.counter
           self.counter += 2
           return x
         else:
           raise StopIteration # Excepción de parada
 
-    myOddNumbers = OddNumbers()
+    myOddNumbers = OddNumbersMax10()
     myIterator = iter(myOddNumbers)
 
     print(next(myIterator))
@@ -241,7 +245,23 @@ Son una notación o sintaxis para definir patrones en strings, de cara a compara
 
 Algunos ejemplos de usos típicos de regexp son la validación de correos, contraseñas o códigos personalizados con un formato específico predeterminado (NIF, SKU, etc.).
 
-[...]
+Para manejar expresiones regulares, Python ofrece el módulo re que presenta los siguientes métodos:
+
+    import re
+
+    text = "The rain in Spain"
+
+    found = re.search("^The.*Spain$", text)
+    print(found)
+
+    matches = re.findall("ai", text)
+    print(matches)
+
+    words = re.split("\s", text)
+    print(words)
+
+    dashed = re.sub("\s", "-", text)
+    print(dashed)
 
 ## 8. Más sobre urllib
 
