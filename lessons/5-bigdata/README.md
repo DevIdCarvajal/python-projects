@@ -23,6 +23,7 @@
     2. Calcula cuántas personas hay de cada horóscopo y lo muestra por consola. Ejemplo:
          - Tauro 3
          - Piscis 1
+    3. Terminará su ejecución cuando termine la de la Tarea 1.
 - Nivel 2 de dificultad (opcional): Lo mismo que el anterior pero orientado a objetos (con clases).
 - Medir el tiempo neto que tarda cada tarea en su ejecución y mostrarlo por consola a su finalización.
 - Hacer tests unitarios para cada una de las funciones (o métodos en su caso) implementadas (/os).
@@ -356,16 +357,20 @@ Para evitar esto, existen diversos mecanismos como los semáforos o el del sigui
       lock = threading.Lock()
 
       def task1():
+        lock.acquire()
+
         for i in range(5):
-          lock.acquire()
           print('Tarea 1')
-          lock.release()
+        
+        lock.release()
       
       def task2():
+        lock.acquire()
+
         for i in range(5):
-          lock.acquire()
           print('Tarea 2')
-          lock.release()
+        
+        lock.release()
 
       if __name__=="__main__":
         t1 = threading.Thread(target=task1)
@@ -441,16 +446,16 @@ Python maneja dos conceptos principales en términos de gestión de la memoria u
 Una referencia es una posición de memoria, es decir, una dirección que apunta a un dato (internamente representado como objeto) que puede ser más o menos voluminoso, desde un número hasta una lista de muchos elementos donde cada uno a su vez es un diccionario (lo que implicaría más referencias).
 
     import sys
-
+    
     a = 'my-string'
     b = [a]
     c = { 'key': a }
     
     sys.getrefcount(a)
-
+    
     del a
     del b
-
+    
     sys.getrefcount(a)
 
 - Recolección de basura
@@ -470,7 +475,6 @@ O también hacerlo de forma manual en el código:
     collected = gc.collect()
 
     print(f"Garbage collector: {collected} objects.")
-
 
 ## Referencias
 
