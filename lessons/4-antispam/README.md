@@ -286,6 +286,4 @@ Para manejar expresiones regulares, Python ofrece el módulo re que presenta los
 [Aprender regex (I)](https://learn-regex.com/)  
 [Aprender regex (II)](https://regexone.com/)  
 [Referencia regex](https://regexr.com/)  
-[El módulo re](https://www.w3schools.com/python/python_regex.asp)  
-[]()  
-[]()
+[El módulo re](https://www.w3schools.com/python/python_regex.asp)

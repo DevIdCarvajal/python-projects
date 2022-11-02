@@ -60,7 +60,7 @@
 ## Proyecto 5: Simulando Big Data
 
 - Trabajar con grandes cantidades de datos
-- Medición de rendimiento: Librería timer
+- Medición de rendimiento: Librería time
 - Control de calidad: Pruebas unitarias
 - Librería doctest
 - Trabajo con datos estructurados binarios

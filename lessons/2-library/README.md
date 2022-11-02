@@ -39,34 +39,34 @@ Siguiendo las técnicas del paradigma de la programación funcional, los casos h
 
 - Almacenarlas en una variable en caso de querer ser reutilizadas:
 
-        levelUp = lambda level : level + 1
-        print(levelUp(8))
+      levelUp = lambda level : level + 1
+      print(levelUp(8))
 
-        concatenateWithColon = lambda string1, string2 : f"{string1}:{string2}"
-        print(concatenateWithColon(4,7))
+      concatenateWithColon = lambda string1, string2 : f"{string1}:{string2}"
+      print(concatenateWithColon(4,7))
 
 - Pasarlas como parámetros a otras funciones como "callbacks":
 
-        def calculateWithLambda(valor1, valor2, operatorFunction):
-            return operatorFunction(valor1, valor2)
+      def calculateWithLambda(valor1, valor2, operatorFunction):
+        return operatorFunction(valor1, valor2)
 
-        print(calculateWithLambda(10, 3, lambda x1, x2 : x1 + x2))
+      print(calculateWithLambda(10, 3, lambda x1, x2 : x1 + x2))
 
 - Devolverlas como valor de retorno de otras funciones ("currificación"):
 
-        def multiplier(n):
-            return lambda number : number * n
+      def multiplier(n):
+        return lambda number : number * n
 
-        duplicater = multiplier(2)
-        triplicater = multiplier(3)
+      duplicater = multiplier(2)
+      triplicater = multiplier(3)
 
-        print(duplicater(111))
-        print(triplicater(111))
+      print(duplicater(111))
+      print(triplicater(111))
 
-        # Currying version
+      # Currying version
 
-        print(multiplier(4)(111))
-        print(multiplier(5)(111))
+      print(multiplier(4)(111))
+      print(multiplier(5)(111))
 
 ## 3. Operaciones sobre listas, tuplas, diccionarios y conjuntos
 
@@ -77,7 +77,7 @@ Es posible iterar listas aplicando funciones en cada iteración mediante las fun
 En primer lugar está map, que sirve para aplicar una función a todos los elementos de una lista y devolver un nuevo objeto iterable con los elementos resultantes:
 
     def startsWithA(string):
-        return string[0] == "A"
+      return string[0] == "A"
 
     fruits = ["Apple", "Banana", "Pear", "Apricot", "Orange"]
     mapObject = map(startsWithA, fruits)
@@ -87,7 +87,7 @@ En primer lugar está map, que sirve para aplicar una función a todos los eleme
 Después está filter, que sirve para, dada una función que devuelve una expresión de comparación lógica y una lista, aplica la condición determinada por la función a todos los elementos de la lista, y devuelve un nuevo objeto iterable con los elementos filtrados por dicha condición:
 
     def endsWithE(string):
-        return string[-1] == "e"
+      return string[-1] == "e"
 
     fruits = ["Apple", "Banana", "Pear", "Apricot", "Orange"]
     filterObject = filter(endsWithE, fruits)
@@ -99,7 +99,7 @@ Por último tenemos reduce, que dada una función acumuladora y una lista, aplic
     from functools import reduce
 
     def sigma(x, y):
-        return x + y
+      return x + y
 
     list = [2, 4, 7, 3]
     print(reduce(sigma, list))
@@ -256,7 +256,7 @@ Finalmente y tras realizar las operaciones deseadas, el fichero debe cerrarse:
 
 [Funciones lambda](https://www.w3schools.com/python/python_lambda.asp)  
 [Currificación](https://www.campusmvp.es/recursos/post/Que-es-la-Currificacion-en-programacion-funcional.aspx)  
-[map(), filter() y reduce()](https://stackabuse.com/map-filter-and-reduce-in-python-with-examples/)  
+[Funciones map(), filter() y reduce()](https://stackabuse.com/map-filter-and-reduce-in-python-with-examples/)  
 [Listas](https://www.w3schools.com/python/python_lists.asp)  
 [Tuplas](https://www.w3schools.com/python/python_tuples.asp)  
 [Diccionarios](https://www.w3schools.com/python/python_dictionaries.asp)  
