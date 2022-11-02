@@ -64,7 +64,7 @@ Algunos de los métodos más relevantes de la librería son los siguientes:
       for i in range(1000000):
         i = i + 1
       
-      print(f"El bucle iteró {str(x)} veces")
+      print(f"El bucle iteró {str(i)} veces")
 
       end_time = time.process_time()
       # end_time = time.perf_counter()
@@ -120,7 +120,7 @@ Es una buena idea implementar una clase Timer para instanciar un objeto que teng
 
 Entre las distintas fases del desarrollo de un proyecto software, existe una conocida como la fase de pruebas, que se encarga de tratar de asegurar unos mínimos de calidad del software implementado.
 
-Existen muchos tipos de pruebas, entre ellas las conocidas como unitarias (unit tests), enmarcados dentro de la metodología TDD (Test-Driven Development, o Desarrollo Guiado por Pruebass).
+Existen muchos tipos de pruebas, entre ellas las conocidas como unitarias (unit tests), enmarcados dentro de la metodología TDD (Test-Driven Development, o Desarrollo Guiado por Pruebas).
 
 ![](tdd.jpg)
 
@@ -171,7 +171,7 @@ El siguiente es un ejemplo en el que los tests van "guiando" el desarrollo (apli
       >>> palindrome("Ada")
       True
       """
-      if palabra == palabra[::-1]:
+      if word == word[::-1]:
         return True
       else:
         return False
@@ -180,7 +180,7 @@ El siguiente es un ejemplo en el que los tests van "guiando" el desarrollo (apli
 
 El test falla, porque es sensible a mayúsculas (*case sensitive*), cuando no debería serlo, así que puede modificarse el condicional por este otro:
 
-    if palabra.lower() == palabra[::-1].lower():
+    if word.lower() == word[::-1].lower():
 
 Si añadimos un test que tiene espacios, también falla, cuando no debería:
 
@@ -189,8 +189,8 @@ Si añadimos un test que tiene espacios, también falla, cuando no debería:
 
 Lo que implica ajustar el código para que pase el test (sin dejar de pasar el resto):
 
-    if palabra.lower().replace(" ", "") ==
-      palabra[::-1].lower().replace(" ", ""):
+    if word.lower().replace(" ", "") ==
+      word[::-1].lower().replace(" ", ""):
 
 Y así sucesivamente para todos los casos que se deseen contemplar (tildes, etc.).
 
@@ -436,9 +436,29 @@ Una referencia es una posición de memoria, es decir, una dirección que apunta 
     
     sys.getrefcount(a)
 
+    del a
+    del b
+
+    sys.getrefcount(a)
+
 - Recolección de basura
 
-[...]
+Se pueden establecer umbrales de número máximo de referencias para que el recolector de basura de Python las libere:
+
+    import gc
+
+    print(f"Garbage collection thresholds: {gc.get_threshold()}")
+
+    gc.set_threshold(500)
+
+O también hacerlo de forma manual en el código:
+
+    import gc
+
+    collected = gc.collect()
+
+    print(f"Garbage collector: {collected} objects.")
+
 
 ## Referencias
 
