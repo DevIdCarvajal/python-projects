@@ -13,7 +13,19 @@
 
 ## 1. Trabajar con grandes cantidades de datos
 
-- [...]
+- Desarrollar un chatbot con los siguientes hilos de ejecución:
+  - Tarea 1: 
+    1. Pide al usuario su fecha de nacimiento en formato `YYYY-MM-DD`.
+    2. Añade dicha fecha a un fichero de texto (una fecha por línea).
+    3. Pregunta al usuario si quiere meter otra fecha más. Si es así, vuelve al paso 1; si no, termina su ejecución.
+  - Tarea 2:
+    1. Cada vez que se añade una nueva fecha, lee el fichero donde estas se están recogiendo.
+    2. Calcula cuántas personas hay de cada horóscopo y lo muestra por consola. Ejemplo:
+         - Tauro 3
+         - Piscis 1
+- Nivel 2 de dificultad (opcional): Lo mismo que el anterior pero orientado a objetos (con clases).
+- Medir el tiempo neto que tarda cada tarea en su ejecución y mostrarlo por consola a su finalización.
+- Hacer tests unitarios para cada una de las funciones (o métodos en su caso) implementadas (/os).
 
 ## 2. Medición de rendimiento: Librería time
 
