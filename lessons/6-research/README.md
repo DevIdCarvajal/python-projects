@@ -11,7 +11,7 @@
 
 ## 1. Manejando arrays y visualizando información científica
 
-- Crear un entorno virtual en el que se instalen la súltimas versiones de los paquetes `numpy`, `pandas`, `matplotlib` y `scipy`.
+- Crear un entorno virtual en el que se instalen las últimas versiones de los paquetes `numpy`, `pandas`, `matplotlib` y `scipy`.
 - Definir un dataset en CSV del tiempo atmosférico (temperatura, velocidad del viento, precipitaciones, etc.) para distintas ciudades, por días, durante una semana.
 - Implementar funciones que obtengan valores promedio, moda, etc. de algunas de las variables registradas.
 - Representar con gráficas de dos o más tipos los datos del CSV.
@@ -87,11 +87,71 @@ Que se puede reutilizar para instalar rápidamente esos mismos paquetes en otro 
 
 ## 5. BBDD con Python
 
-[...]
+Para trabajar con bases de datos, Python dispone de varios paquetes de terceros a instalar, que incluyen los llamados conectores, y que dependen del sistema gestor de base de datos (SGBD) con el que se quiera trabajar: MySQL, PosgreSQL, SQL Server, Oracle, etc., en el caso de relacionales, y MongoDB, etc., en el caso de NoSQL.
+
+Sea cual sea el que se elija, implica también instalar en la máquina el SGBD en cuestión y tener un servidor activo y escuchando, configurado y listo para aceptar peticiones de la aplicación que estamos desarrollando, salvo que ya se disponga previamente de un servidor de base de datos levantado (sea un servicio en la nube de terceros o un servidor propio).
+
+Además, desde la versión 2.5, Python incluye un gestor de SQLite integrado, que para pruebas en desarrollo puede resultar bastante útil sin necesidad de instalar un SGBD.
 
 ## 6. Uso de SQL: Librería sqlite3
 
-[...]
+Ejemplo básico completo de creación de base de datos con creación de una tabla, población de datos y obtención de datos:
+
+    import sqlite3
+
+    database = sqlite3.connect("example.db")
+    cursor = database.cursor()
+
+    def createTable():
+      global cursor
+
+      cursor.execute(
+        """
+          CREATE TABLE IF NOT EXISTS books(
+            id INT PRIMARY KEY,
+            title VARCHAR(50) NOT NULL,
+            author VARCHAR(50) NOT NULL,
+            genre VARCHAR(20) NULL,
+            cost REAL NOT NULL
+          );
+        """
+      )
+
+    def populateData():
+      global database
+      global cursor
+
+      cursor.execute(
+        """
+          INSERT INTO books
+          VALUES
+            (1, 'Los pilares de la tierra', 'Ken Follet', 'Suspense', 45),
+            (2, 'Entrevista con el vampiro', 'Anne Rice', 'Fantasía', 25);
+        """
+      )
+
+      database.commit()
+
+    def selectData():
+      global cursor
+
+      cursor.execute(
+        """
+          SELECT *
+            FROM books;
+        """
+      )
+
+      return cursor.fetchall()
+
+    # -------------------
+
+    createTable()
+    populateData()
+
+    books = selectData()
+
+    print(books)
 
 ## Referencias
 
@@ -101,5 +161,6 @@ Que se puede reutilizar para instalar rápidamente esos mismos paquetes en otro 
 [Tutorial de Pandas](https://www.w3schools.com/python/pandas/default.asp)  
 [Tutorial de Matplotlib](https://www.w3schools.com/python/matplotlib_intro.asp)  
 [Tutorial de SciPy](https://www.w3schools.com/python/scipy/index.php)  
+[Aprende Python con Alf](https://aprendeconalf.es/docencia/python/manual/)  
 [Introducción a SQLite con Python](https://parzibyte.me/blog/2017/11/21/python-3-sqlite-3-introduccion-ejemplos/)  
 [Manual de SQLite](https://www.geeksforgeeks.org/python-sqlite/)
