@@ -453,6 +453,7 @@ Una referencia es una posición de memoria, es decir, una dirección que apunta 
     
     sys.getrefcount(a)
     
+    # Selección explícita de candidatos a su liberación
     del a
     del b
     
@@ -460,21 +461,23 @@ Una referencia es una posición de memoria, es decir, una dirección que apunta 
 
 - Recolección de basura
 
-Se pueden establecer umbrales de número máximo de referencias para que el recolector de basura de Python las libere:
+Se pueden establecer umbrales de número máximo de referencias para que el recolector de basura de Python las libere de forma automática:
 
     import gc
 
-    print(f"Garbage collection thresholds: {gc.get_threshold()}")
+    print(f"Límite de referencias: {gc.get_threshold()}")
 
-    gc.set_threshold(500)
+    gc.set_threshold(500, 10, 10)
 
 O también hacerlo de forma manual en el código:
 
     import gc
 
+    gc.get_count()
     collected = gc.collect()
+    gc.get_count()
 
-    print(f"Garbage collector: {collected} objects.")
+    print(f"{collected} objetos recolectados")
 
 ## Referencias
 
