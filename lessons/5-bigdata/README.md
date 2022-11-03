@@ -26,7 +26,8 @@
     3. Terminará su ejecución cuando termine la de la Tarea 1.
 - Nivel 2 de dificultad (opcional): Lo mismo que el anterior pero orientado a objetos (con clases).
 - Medir el tiempo neto que tarda cada tarea en su ejecución y mostrarlo por consola a su finalización.
-- Hacer tests unitarios para cada una de las funciones (o métodos en su caso) implementadas (/os).
+- Hacer tests unitarios para cada una de las funciones/métodos implementadas/os.
+- Por cada inserción en el fichero de texto por parte de la Tarea 1, se hará otra en un fichero de log de tipo DEBUG con el mensaje "Nueva fecha insertada" y el instante en el que se generó. Asimismo, la Tarea 2 insertará en el log un mensaje INFO que diga "Proceso terminado".
 
 ## 2. Medición de rendimiento: Librería time
 

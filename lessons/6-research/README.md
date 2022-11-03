@@ -11,7 +11,12 @@
 
 ## 1. Manejando arrays y visualizando información científica
 
-- [...]
+- Crear un entorno virtual en el que se instalen la súltimas versiones de los paquetes `numpy`, `pandas`, `matplotlib` y `scipy`.
+- Definir un dataset en CSV del tiempo atmosférico (temperatura, velocidad del viento, precipitaciones, etc.) para distintas ciudades, por días, durante una semana.
+- Implementar funciones que obtengan valores promedio, moda, etc. de algunas de las variables registradas.
+- Representar con gráficas de dos o más tipos los datos del CSV.
+
+Nota: Se debe usar la mayor cantidad de librerías instaladas posible para resolver el ejercicio.
 
 ## 2. Entornos virtuales
 
