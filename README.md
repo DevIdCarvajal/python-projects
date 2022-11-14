@@ -88,7 +88,7 @@
 - Argumentos en ficheros ejecutables
 - Desarrollo web con Python-Django
 - Plantillas, modelos y vistas
-- Formularios y vistas avanzadas. URLconfig
+- Formularios y vistas avanzadas. URLConf
 - Desplegando django
 - Sesiones y usuarios en django
 - Integración con bases de datos y aplicaciones
