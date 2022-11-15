@@ -1,0 +1,19 @@
+body {
+  margin: 0;
+  text-align: center;
+}
+
+.flex {
+  display: flex;
+  margin: 0 20%;
+  width: 60%;
+}
+
+.creature {
+  width: 30%;
+  margin: 0 2.5%;
+}
+
+.creature img {
+  width: 100%;
+}

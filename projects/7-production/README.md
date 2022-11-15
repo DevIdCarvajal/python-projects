@@ -213,21 +213,29 @@ O en el fichero de vistas ( `views.py` ), estableciendo los datos literalmente o
 
     def indexWithTemplate(request):
       template = loader.get_template('index.html')
+      
+      # QuerySet
       creatures = Creatures.objects.all().values()
       context = {
         'description': 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
         'creatures': creatures
       }
+
       return HttpResponse(template.render(context, request))
 
 En cuanto a la lógica de presentación, esta se puede establecer en las plantillas con bucles, condicionales, usando filtros, etc.:
 
+    <!-- If there are creatures -->
     {% if creatures|length > 0 %}
     <div class="flex">
       {% for c in creatures %}
+        <div class="creature">
         {% with 'img/'|add:c.image as src %}
-          <img src={% static src %} alt={{ c.name }} class="creature">
+          <img src={% static src %} alt={{ c.name }}>
+          <br>
+          Peso: {{ c.weight }} 
         {% endwith %}
+        </div>
       {% endfor %}
     </div>
     {% else %}
@@ -243,9 +251,9 @@ En primer lugar se debe crear un fichero `forms.py` dentro de la carpeta de la a
     from django import forms
 
     class CreaturesForm(forms.Form):
-      creature = forms.CharField(max_length=255)
-      image = forms.CharField(max_length=255)
-      weight = forms.IntegerField()
+      name = forms.CharField(max_length=255, label="Criatura")
+      image = forms.CharField(max_length=255, label="Imagen")
+      weight = forms.IntegerField(label="Peso")
 
 *Nota: Existen muchos tipos de campos con sus opciones correspondientes, así como otras más genéricas (e.g., `value` o `required`), e incluso es posible crear el formulario directamente del modelo.*
 
@@ -288,9 +296,10 @@ Y en el fichero de vistas añadir dicha función:
     
     def addcreature(request):
       name = request.POST['name']
+      image = request.POST['image']
       weight = request.POST['weight']
 
-      creature = Creatures(name=name, image="", weight=weight)
+      creature = Creatures(name=name, image=image, weight=weight)
       creature.save()
 
       return HttpResponseRedirect(reverse('index'))
