@@ -326,7 +326,75 @@ También se pueden establecer patrones con expresiones regulares para un enrutam
 
 ## 7. Desplegando django
 
-.
+Existen varias formas de desplegar un proyecto desarrollado con Django, pero en todas ellas es necesaria la presencia de un servidor web (e.g., Apache Web Server) y una interfaz de comunicación entre el servidor y el framework.
+
+Los siguientes pasos son los que hay que realizar para un despliegue con la aplicación uWSGI basada en la interfaz WSGI y nginx como servidor web.
+
+*Nota: Si bien es opcional, es conveniente trabajar siempre en un entorno virtual, máxime siendo una máquina de producción, para después una vez probado y comprobado que funciona correctamente, pasar al entorno real de Python.*
+
+En primer lugar, instalar el paquete:
+
+    pip install uwsgi
+
+Verificar que la aplicación funciona correctamente:
+
+    python manage.py runserver
+
+Lanzar la aplicación vía `uwsgi` para comprobar que la puede servir por `http://localhost:8000/`, que hará de interfaz intermedia con `nginx`:
+
+    uwsgi --http :8000 --module myths.wsgi
+
+Habiéndose instalado previamente `nginx` en la máquina, se debe crear un fichero de configuración `myths_nginx.conf`:
+
+*Nota: Dado que este paso depende de cada sistema operativo, a partir de este punto se asumirá que se está trabajando en un Linux Debian 11.*
+
+    upstream django {
+      server 127.0.0.1:8001;
+    }
+
+    server {
+      listen                8000;
+      server_name           localhost;
+      charset               utf-8;
+      client_max_body_size  75M;
+
+      location /media  {
+        alias /<ruta_a_la_carpeta_del_proyecto>/myths/media;
+      }
+
+      location /static {
+        alias /<ruta_a_la_carpeta_del_proyecto>/myths/static;
+      }
+      
+      location / {
+        uwsgi_pass django;
+        include /<ruta_a_la_carpeta_del_proyecto>/myths/uwsgi_params;
+      }
+    }
+
+A continuación se debe crear un enlace simbólico a producción:
+
+    sudo ln -s /etc/nginx/sites-available/myths_nginx.conf /etc/nginx/sites-enabled/
+
+Después hay que recolectar todos los ficheros estáticos, añadiendo a `settings.py`:
+
+    import os
+
+    ...
+
+    STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+
+Y ejecutar lo siguiente:
+
+    python manage.py collectstatic
+
+Tras reiniciar nginx:
+
+    sudo systemctl restart nginx
+
+Se puede levantar el servidor de nuevo pero esta vez en modo producción ( `cliente web` <-> `servidor web` <-> `socket` <-> `uWSGI` <-> `Python` ):
+
+    uwsgi --socket myths.sock --module myths.wsgi --chmod-socket=664
 
 ## 8. Sesiones y usuarios en django
 
@@ -334,7 +402,32 @@ También se pueden establecer patrones con expresiones regulares para un enrutam
 
 ## 9. Integración con bases de datos y aplicaciones
 
-.
+Cada sistema gestor de base de datos tiene sus propias particularidades, así que a modo de ejemplo concreto se van a dar a continuación los pasos para conectar Django con MySQL.
+
+*Nota: Se asume que ya existe el proyecto creado previamente y, aunque no es obligatorio pero sí conveniente, se está trabajando en un entorno virtual.*
+
+En primer lugar instalar el *driver* o conector correspondiente:
+
+    pip install mysqlclient
+
+Modificar la configuración de `DATABASES` en el fichero `settings.py` (sustituyendo `mydb`, `root` y `admin` por lo que proceda en cada caso):
+
+    DATABASES = {
+      'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'mydb',
+        'USER': 'root',
+        'PASSWORD': 'admin',
+        'HOST':'localhost',
+        'PORT':'3306',
+      }
+    }
+
+Hacer las migraciones correspondientes:
+
+    python manage.py makemigrations
+
+    python manage.py migrate
 
 ## 10. Seguridad
 
@@ -351,5 +444,9 @@ También se pueden establecer patrones con expresiones regulares para un enrutam
 [Tutorial Django](https://www.w3schools.com/django/index.php)  
 [Formularios con Django](https://www.geeksforgeeks.org/django-forms/)  
 [Enrutamiento con URLConf](https://data-flair.training/blogs/django-urls-and-urlconf/)  
+[Desplegar un proyecto Django con uwsgi](https://uwsgi-docs.readthedocs.io/en/latest/tutorials/Django_and_nginx.html)  
+[Documentación Django: Despliegue](https://docs.djangoproject.com/en/4.1/howto/deployment/)  
 []()  
+[Integración de Django con MySQL](https://www.geeksforgeeks.org/how-to-integrate-mysql-database-with-django/)  
+[Documentación Django: Bases de datos](https://docs.djangoproject.com/en/4.1/ref/databases/)  
 []()
