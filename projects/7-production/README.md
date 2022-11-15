@@ -407,7 +407,189 @@ Se puede levantar el servidor de nuevo pero esta vez en modo producción ( `clie
 
 ## 8. Sesiones y usuarios en django
 
-.
+La gestión de sesiones del lado de servidor es una técnica útil para el manejo de cookies de una forma más segura que delegando enteramente esa tarea al navegador en el lado del cliente.
+
+Django proporciona un middleware que facilita esta tarea, almacenando las sesiones de cada usuario identificado en base de datos (alternativamente en fichero o caché).
+
+Los pasos siguientes resultan un ejemplo básico de cómo implementar el acceso a una zona privada protegida por nombre de usuario y contraseña, mediante gestión de sesiones.
+
+*Nota: Para el ejemplo, se reutilizará y ampliará la aplicación `home` generada anteriormente*
+
+En primer lugar, comprobar que el middleware y la aplicación a securizar están incluidos en `settings.py`:
+
+    INSTALLED_APPS = [
+      ...
+      'django.contrib.sessions',
+      ...
+      'home.apps.HomeConfig',
+    ]
+
+    MIDDLEWARE = [
+      ...
+      'django.contrib.sessions.middleware.SessionMiddleware',
+    ]
+
+Después, crear el modelo de usuario en `models.py` (con su correspondiente migración):
+
+    from django.db import models
+
+    class User(models.Model):
+      username = models.CharField(max_length=30)
+      password = models.CharField(max_length=30)
+
+      def __str__(self):
+        return self.username
+
+A continuación, añadir en `views.py` todas las funciones necesarias para la lógica de identificación de usuario en la aplicación, importando el modelo recién creado:
+
+    from django.shortcuts import render
+    from django.http import HttpResponse, HttpResponseRedirect
+    from django.urls import reverse
+    from .models import User
+
+    def home(request):
+      if 'user' in request.session:
+        current_user = request.session['user']
+        param = {'current_user': current_user}
+        
+        return render(request, 'home.html', param)
+      
+      return HttpResponseRedirect(reverse('login'))
+
+    def signup(request):
+      if request.method == 'POST':
+        uname = request.POST['uname']
+        pwd = request.POST['pwd']
+        
+        if User.objects.filter(username=uname).count() == 0:
+          user = User(username=uname, password=pwd)
+          user.save()
+
+          return HttpResponseRedirect(reverse('login'))
+        
+        return HttpResponse('El usuario ya existe')
+      
+      return render(request, 'signup.html')
+
+    def login(request):
+      if request.method == 'POST':
+        uname = request.POST['uname']
+        pwd = request.POST['pwd']
+
+        check_user = User.objects.filter(username=uname, password=pwd)
+
+        if check_user:
+          request.session['user'] = uname
+
+          return HttpResponseRedirect(reverse('home'))
+        
+        return HttpResponse('Datos incorrectos')
+
+      return render(request, 'login.html')
+
+    def logout(request):
+      try:
+        del request.session['user']
+      finally:
+        return HttpResponseRedirect(reverse('login'))
+
+Lo siguiente es enrutar las funciones de las vistas en `urls.py`:
+
+    from django.urls import path
+    from . import views
+
+    urlpatterns = [
+        path('', views.home, name='home'),
+        path('login/', views.login, name='login'),
+        path('logout/', views.logout, name='logout'),
+        path('signup/', views.signup, name='signup'),
+    ]
+
+Finalmente, crear las plantillas correspondientes:
+
+- home.html
+
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <title>{% block title %}{% endblock %}</title>
+      </head>
+      <body>
+        <h1>Zona privada</h1>
+
+        {% if current_user %}
+        <p>
+          Hola, {{ current_user }} |
+          <a href="logout/">Logout</a>
+        </p>
+        {% else %}
+        <p>
+          <a href="../login/">Identificarse</a> |
+          <a href="../signup/">Registrarse</a>
+        </p>
+        {% endif %}
+
+        {% block body %}{% endblock %}
+      </body>
+      </html>
+
+- signup.html
+
+      {% extends 'home.html' %}
+      {% block title %}Registrarse{% endblock %}
+
+      {% block body %}
+        <h2>Registrarse</h2>
+
+        <form method="POST" action="../signup/">
+          {% csrf_token %}
+
+          <p>
+            <label for="uname">Usuario</label>
+            <input type="text" name="uname" id="uname">
+          </p>
+
+          <p>
+            <label for="pwd">Contraseña</label>
+            <input type="text" name="pwd" id="pwd">
+          </p>
+          
+          <p>
+            <input type="submit" name="submit" value="Registrarse">
+          </p>
+        </form>
+      {% endblock %}
+
+- login.html
+
+      {% extends 'home.html' %}
+      {% block title %}Identificarse{% endblock %}
+
+      {% block body %}
+        <h2>Identificarse</h2>
+
+        <form method="POST" action="../login/">
+          {% csrf_token %}
+
+          <p>
+            <label for="uname">Usuario</label>
+            <input type="text" name="uname" id="uname">
+          </p>
+
+          <p>
+            <label for="pwd">Contraseña</label>
+            <input type="text" name="pwd" id="pwd">
+          </p>
+          
+          <p>
+            <input type="submit" name="submit" value="Identificarse">
+          </p>
+        </form>
+      {% endblock %}
 
 ## 9. Integración con bases de datos y aplicaciones
 
@@ -455,7 +637,9 @@ Hacer las migraciones correspondientes:
 [Enrutamiento con URLConf](https://data-flair.training/blogs/django-urls-and-urlconf/)  
 [Desplegar un proyecto Django con uwsgi](https://uwsgi-docs.readthedocs.io/en/latest/tutorials/Django_and_nginx.html)  
 [Documentación Django: Despliegue](https://docs.djangoproject.com/en/4.1/howto/deployment/)  
-[]()  
+[Manejo de sesiones con Django (I)](https://www.tutorialspoint.com/django/django_sessions.htm)  
+[Manejo de sesiones con Django (II)](https://dev.to/madhubankhatri/django-login-logout-using-sessions-2d9i)  
 [Integración de Django con MySQL](https://www.geeksforgeeks.org/how-to-integrate-mysql-database-with-django/)  
 [Documentación Django: Bases de datos](https://docs.djangoproject.com/en/4.1/ref/databases/)  
-[]()
+[Buenas prácticas de seguridad](https://learndjango.com/tutorials/django-best-practices-security)  
+[Documentación Django: Seguridad](https://docs.djangoproject.com/en/4.1/topics/security/)

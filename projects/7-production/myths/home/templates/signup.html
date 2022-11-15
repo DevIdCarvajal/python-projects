@@ -1,0 +1,24 @@
+{% extends 'home.html' %}
+{% block title %}Registrarse{% endblock %}
+
+{% block body %}
+  <h2>Registrarse</h2>
+
+  <form method="POST" action="../signup/">
+    {% csrf_token %}
+
+    <p>
+      <label for="uname">Usuario</label>
+      <input type="text" name="uname" id="uname">
+    </p>
+
+    <p>
+      <label for="pwd">Contraseña</label>
+      <input type="text" name="pwd" id="pwd">
+    </p>
+    
+    <p>
+      <input type="submit" name="submit" value="Registrarse">
+    </p>
+  </form>
+{% endblock %}
