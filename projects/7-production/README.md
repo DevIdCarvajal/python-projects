@@ -555,7 +555,7 @@ Finalmente, crear las plantillas correspondientes:
 
           <p>
             <label for="pwd">Contraseña</label>
-            <input type="text" name="pwd" id="pwd">
+            <input type="password" name="pwd" id="pwd">
           </p>
           
           <p>
@@ -582,7 +582,7 @@ Finalmente, crear las plantillas correspondientes:
 
           <p>
             <label for="pwd">Contraseña</label>
-            <input type="text" name="pwd" id="pwd">
+            <input type="password" name="pwd" id="pwd">
           </p>
           
           <p>

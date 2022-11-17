@@ -163,4 +163,5 @@ Ejemplo básico completo de creación de base de datos con creación de una tabl
 [Tutorial de SciPy](https://www.w3schools.com/python/scipy/index.php)  
 [Aprende Python con Alf](https://aprendeconalf.es/docencia/python/manual/)  
 [Introducción a SQLite con Python](https://parzibyte.me/blog/2017/11/21/python-3-sqlite-3-introduccion-ejemplos/)  
-[Manual de SQLite](https://www.geeksforgeeks.org/python-sqlite/)
+[Manual de SQLite](https://www.geeksforgeeks.org/python-sqlite/)  
+[Tutorial MySQL Python](https://www.w3schools.com/python/python_mysql_getstarted.asp)
