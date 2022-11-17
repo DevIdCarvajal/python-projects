@@ -13,12 +13,6 @@
 
 ## 1. Introducción al aprendizaje automático
 
-- .
-
-## 2. Introducción a los algoritmos de Machine Learning
-
-### Conceptos básicos
-
 - Inteligencia artificial: Engloba todo aquello que pretende que una máquina, que en general es un ordenador con su correspondiente software, imite la forma de razonar de una mente humana.
 - Ciencia de datos: Abarca la aplicación de matemáticas, estadística y programación, orientadas a convertir en información útil enormes conjuntos de datos.
 - Aprendizaje automático: Consiste en diseñar y programar modelos matemáticos que, analizando grandes conjuntos de datos, sean capaces de aprender a detectar patrones y reglas ocultas en la estructura de esos datos. Este proceso se realiza mediante algoritmos, que se categorizan en:
@@ -30,7 +24,9 @@
 
 - Aprendizaje profundo: Más complejo que el anterior, implica el entrenamiento de redes neuronales que sean capaces de reconocer patrones más complicados y no tan lineales, como por ejemplo caras humanas, gestos o incluso estados de ánimo.
 
-### Tipos de algoritmos
+## 2. Introducción a los algoritmos de Machine Learning
+
+Existen muchos tipos de algoritmos en aprendizaje automático, dependiendo de la fase del proceso en la se esté, desde el preprocesamiento de los datos hasta el entrenamiento final del modelo. Algunos ejemplos serían:
 
 - De regresión
   - Por mínimos cuadrados ordinarios (OLSR)
@@ -111,7 +107,7 @@ Una vez cargados los datos (con las opciones pertinentes):
     import pandas as pd
 
     data = pd.read_csv(
-      'customers-100-raw.csv',
+      'customers',
       converters = { 'Age' : lambda x : int(x) }
     )
 
@@ -213,9 +209,74 @@ Un ejemplo de esta última es el *one-hot encoding*:
     ohencoder_fit = ohencoder.fit(label.reshape(-1,1))
     ohencoder_fit.transform(label.reshape(-1,1)).toarray()
 
+Una vez preprocesados los datos, hay que elegir qué modelo a usar para entrenarlo con ellos, de entre las muchas familias de modelos que hay, tanto en aprendizaje supervisado:
+
+ - Linear Models ( `linear_model` )
+ - Linear and Quadratic Discriminant Analysis ( `discriminant_analysis` )
+ - Kernel ridge regression ( `kernel_ridge` )
+ - Support Vector Machines ( `svm` )
+ - Stochastic Gradient Descent ( `linear_model` )
+ - Nearest Neighbors ( `neighbors` )
+ - Gaussian Processes ( `gaussian_process` )
+ - Cross decomposition ( `cross_decomposition` )
+ - Naive Bayes ( `naive_bayes` )
+ - Decision Trees ( `tree` )
+ - Ensemble methods ( `ensemble` )
+ - Multiclass and multioutput algorithms ( `multiclass`, `multioutput` )
+ - Semi-supervised learning ( `semi_supervised` )
+ - Isotonic regression ( `isotonic` )
+ - Probability calibration ( `calibration` )
+ - Neural network models (supervised) ( `neural_network` )
+
+Como no supervisado:
+
+  - Gaussian mixture models ( `GaussianMixture` )
+  - Manifold learning ( `manifold` )
+  - Clustering ( `cluster` )
+  - Decomposing signals in components (matrix factorization problems) ( `decomposition` )
+  - Covariance estimation ( `covariance` )
+  - Neural network models (unsupervised) ( `neural_network` )
+
+El ejemplo siguiente va a tomar dos casos de supervisados, regresión logística y bosque aleatorio:
+
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.ensemble import RandomForestClassifier
+    
+    log_reg = LogisticRegression(penalty = 'none')
+    log_reg_fit = log_reg.fit(x_train, y_train)
+
+    rf_class = RandomForestClassifier()
+    rf_class_fit = rf_class.fit(X_train, y_train)
+
 ## 8. Revisión de resultados
 
-.
+Dado un modelo entrenado, hay que comprobar que ofrece buenos resultados, midiendo y evaluando si hace predicciones acertadas, lo que implica hacer una primera prueba con los datos de test que reservamos anteriormente:
+
+    # ...
+    
+    y_pred_log_reg = log_reg_fit.predict(X_test)
+    y_pred_rf_class = rf_class_fit.predict(X_test)
+
+    print(f'Logistic Regression predictions {y_pred_log_reg[:5]}')
+    print(f'Random Forest predictions {y_pred_rf_class[:5]}')
+
+También es posible obtener unas métricas que arrojarán una foto más acertada y global de lo bien que el modelo es capaz de predecir resultados:
+
+    from sklearn.metrics import confusion_matrix, precision_score, recall_score, accuracy_score
+
+    print('##-- Logistic Regression --## ')
+    print(f'Acuraccy: {accuracy_score(y_test, y_pred_log_reg)}')
+    print(f'Precision: {precision_score(y_test, y_pred_log_reg, average="macro")}')
+    print(f'Recall: {recall_score(y_test, y_pred_log_reg, average="macro")}')
+    print(confusion_matrix(y_test, y_pred_log_reg))
+    
+    print('\n##-- Random Forest --## ')
+    print(f'Acuraccy: {accuracy_score(y_test, y_pred_rf_class)}')
+    print(f'Precision: {precision_score(y_test, y_pred_rf_class, average="macro")}')
+    print(f'Recall: {recall_score(y_test, y_pred_rf_class, average="macro")}')
+    print(confusion_matrix(y_test, y_pred_rf_class))
+
+En función de estos valores y determinando unos umbrales mínimos de control de calidad, se pueden probar varios modelos y elegir el más acertado, retroceder en algún paso más atrás del proceso (como el preprocesamiento) para hacer modificaciones de cara a afinar la eficacia del modelo, etc.
 
 ## Referencias
 
